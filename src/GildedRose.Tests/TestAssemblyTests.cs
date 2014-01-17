@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using GildedRose.Console;
 using NUnit.Framework;
@@ -35,8 +36,70 @@ namespace GildedRose.Tests
         public void SellInGoesDownByOneEachDay()
         {
             updater.UpdateQuality(Items);
+            Assert.That(Items[0].SellIn, Is.EqualTo(9));
+        }
+        
+        [Test]
+        public void QualityDegreadesAtTheEndOfEachDay()
+        {
+            updater.UpdateQuality(Items);
+            Assert.That(Items[0].Quality, Is.EqualTo(19));
+        }
 
-            Assert.That(Items[0].SellIn == 9);
+        [Test]
+        public void OnceSellInIsAt0QualityDegradesTwiceAsFast()
+        {
+            PassMultipleDays(10);
+            Assert.That(Items[0].Quality, Is.EqualTo(8));
+        }
+
+        [Test]
+        public void QualityIsNeverNegative()
+        {
+            PassMultipleDays(20);
+            Assert.That(Items[0].Quality, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void AgedBrieIncreasesInQualityAsTimePasses()
+        {
+            var agedBrie = Items[1];
+            updater.UpdateQuality(Items);
+
+            Assert.That(agedBrie.Quality, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void QualityIsNeverGreaterThan50()
+        {
+            var agedBrie = Items[1];
+            PassMultipleDays(100);
+
+            Assert.That(agedBrie.Quality, Is.EqualTo(50));
+        }
+
+        [Test]
+        public void SulfurasAlwaysHasAQualityOf80()
+        {
+            var sulfuras = Items[3];
+            PassMultipleDays(10);
+
+            Assert.That(sulfuras.Quality, Is.EqualTo(80));
+        }
+
+        [Test]
+        public void BackstagePassesIncreaseDoublyWhenSellInIs10OrLess()
+        {
+            var backstagePass = Items[4];
+            PassMultipleDays(5);
+
+            Assert.That(backstagePass.Quality, Is.EqualTo(27));
+        }
+
+        private void PassMultipleDays(Int32 daysToPass)
+        {
+            for (var i = daysToPass; i >= 0; i--)
+                updater.UpdateQuality(Items);
         }
     }
 }
