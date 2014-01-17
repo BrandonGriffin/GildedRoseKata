@@ -42,7 +42,16 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgedBrie.cs" />
+    <Compile Include="BackstagePass.cs" />
+    <Compile Include="ConjuredItem.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="ItemQualityExtensions.cs" />
+    <Compile Include="QualityItem.cs" />
+    <Compile Include="QualityItemFactory.cs" />
+    <Compile Include="RegularItem.cs" />
+    <Compile Include="SellInItemExtensions.cs" />
+    <Compile Include="Sulfuras.cs" />
     <Compile Include="Updater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

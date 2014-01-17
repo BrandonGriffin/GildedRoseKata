@@ -49,14 +49,14 @@ namespace GildedRose.Tests
         [Test]
         public void OnceSellInIsAt0QualityDegradesTwiceAsFast()
         {
-            PassMultipleDays(10);
+            PassDays(11);
             Assert.That(Items[0].Quality, Is.EqualTo(8));
         }
 
         [Test]
         public void QualityIsNeverNegative()
         {
-            PassMultipleDays(20);
+            PassDays(20);
             Assert.That(Items[0].Quality, Is.EqualTo(0));
         }
 
@@ -73,7 +73,7 @@ namespace GildedRose.Tests
         public void QualityIsNeverGreaterThan50()
         {
             var agedBrie = Items[1];
-            PassMultipleDays(100);
+            PassDays(101);
 
             Assert.That(agedBrie.Quality, Is.EqualTo(50));
         }
@@ -82,7 +82,7 @@ namespace GildedRose.Tests
         public void SulfurasAlwaysHasAQualityOf80()
         {
             var sulfuras = Items[3];
-            PassMultipleDays(10);
+            PassDays(11);
 
             Assert.That(sulfuras.Quality, Is.EqualTo(80));
         }
@@ -91,7 +91,7 @@ namespace GildedRose.Tests
         public void BackstagePassesIncreaseDoublyWhenSellInIs10OrLess()
         {
             var backstagePass = Items[4];
-            PassMultipleDays(5);
+            PassDays(6);
 
             Assert.That(backstagePass.Quality, Is.EqualTo(27));
         }
@@ -100,14 +100,23 @@ namespace GildedRose.Tests
         public void BackstagePassesIncreaseBy3IfThereIsFiveOrLessDaysToTheShow()
         {
             var backstagePass = Items[4];
-            PassMultipleDays(10);
+            PassDays(11);
 
             Assert.That(backstagePass.Quality, Is.EqualTo(38));
         }
 
-        private void PassMultipleDays(Int32 daysToPass)
+        [Test]
+        public void ConjuredGoodsShouldDecreaseTwiceAsFast()
         {
-            for (var i = daysToPass; i >= 0; i--)
+            var conjuredGood = Items[5];
+            PassDays(1);
+
+            Assert.That(conjuredGood.Quality, Is.EqualTo(4));
+        }
+
+        private void PassDays(Int32 daysToPass)
+        {
+            for (var i = daysToPass; i > 0; i--)
                 updater.UpdateQuality(Items);
         }
     }
