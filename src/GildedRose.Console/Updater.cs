@@ -1,22 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GildedRose.Console
 {
     public class Updater
     {
-        public void UpdateQuality(List<Item> Items)
+        public void UpdateQuality(IList<Item> Items)
         {
             for (var i = 0; i < Items.Count; i++)
             {
-                if (Items[i].Name != "Aged Brie" && Items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
+                if (ItemIsDegradable(Items[i]))
                 {
-                    if (Items[i].Quality > 0)
-                    {
-                        if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
-                        {
-                            Items[i].Quality = Items[i].Quality - 1;
-                        }
-                    }
+                    DecreaseQuality(Items[i]);
                 }
                 else
                 {
@@ -80,15 +75,20 @@ namespace GildedRose.Console
             }
         }
 
+        private static Boolean ItemIsDegradable(Item Item)
+        {
+            return Item.Name != "Aged Brie" && Item.Name != "Backstage passes to a TAFKAL80ETC concert";
+        }
+
+        private static void DecreaseQuality(Item Item)
+        {
+            if (Item.Quality > 0)
+            {
+                if (Item.Name != "Sulfuras, Hand of Ragnaros")
+                {
+                    Item.Quality = Item.Quality - 1;
+                }
+            }
+        }
     }
-
-    public class Item
-    {
-        public string Name { get; set; }
-
-        public int SellIn { get; set; }
-
-        public int Quality { get; set; }
-    }
-
 }
