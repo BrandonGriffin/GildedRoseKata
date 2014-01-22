@@ -14,7 +14,7 @@ namespace GildedRose.Tests
         [SetUp]
         public void SetUp()
         {
-            updater = new Updater();
+            updater = new Updater(new QualityItemFactory());
 
             Items = new List<Item>
             {
